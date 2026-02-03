@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            animation: float 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stitch {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+        }
+
+        .stitch img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .stitch.happy {
+            animation: bounce 0.5s ease;
+        }
+
+        .stitch.sad {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .flowers {
+            font-size: 40px;
+            margin-top: -30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        button {
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px 30px;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transition: all 0.5s ease;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        #noBtn {
+            background: #e0e0e0;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        #noBtn:hover {
+            background: #d0d0d0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="stitch" id="stitch">
+            <img src="https://static.wikia.nocookie.net/disney/images/e/e0/Profile_-_Stitch.png" alt="Stitch" id="stitchImg" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Ccircle cx=%22100%22 cy=%22100%22 r=%2280%22 fill=%22%234A90E2%22/%3E%3Ccircle cx=%2280%22 cy=%2290%22 r=%2215%22 fill=%22%23000%22/%3E%3Ccircle cx=%22120%22 cy=%2290%22 r=%2215%22 fill=%22%23000%22/%3E%3Ccircle cx=%22100%22 cy=%22110%22 r=%228%22 fill=%22%23000%22/%3E%3C/svg%3E'">
+        </div>
+        <div class="flowers">💐</div>
+        <h1>Would You Be My Valentine?</h1>
+        <p class="question" id="question">Make me the happiest! 💕</p>
+        
+        <div class="buttons">
+            <button id="yesBtn">Yes! 💖</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Log visitor
+        logEvent('page_visit', { timestamp: new Date().toISOString() });
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const stitch = document.getElementById('stitch');
+        const stitchImg = document.getElementById('stitchImg');
+        const question = document.getElementById('question');
+        
+        let noClickCount = 0;
+        let yesBtnSize = 1;
+
+        // Different Stitch images for different emotions
+        const stitchImages = {
+            normal: 'https://static.wikia.nocookie.net/disney/images/e/e0/Profile_-_Stitch.png',
+            happy: 'https://static.wikia.nocookie.net/disney/images/4/42/Stitch_Happy.png',
+            sad1: 'https://static.wikia.nocookie.net/disney/images/6/6c/Stitch_Sad.png',
+            sad2: 'https://static.wikia.nocookie.net/disney/images/3/3e/Stitch_Crying.png',
+            sad3: 'https://static.wikia.nocookie.net/disney/images/8/8a/Stitch_Very_Sad.png'
+        };
+
+        const sadMessages = [
+            "Are you sure? 🥺",
+            "Please reconsider... 💔",
+            "You're breaking my heart! 😢",
+            "One more chance? 🙏",
+            "I'll be so sad... 😭"
+        ];
+
+        function makeStitchHappy() {
+            stitchImg.src = stitchImages.happy;
+            stitch.classList.add('happy');
+            setTimeout(() => stitch.classList.remove('happy'), 500);
+        }
+
+        function makeStitchSad(level) {
+            if (level === 1) {
+                stitchImg.src = stitchImages.sad1;
+            } else if (level === 2) {
+                stitchImg.src = stitchImages.sad2;
+            } else {
+                stitchImg.src = stitchImages.sad3;
+            }
+            stitch.classList.add('sad');
+            setTimeout(() => stitch.classList.remove('sad'), 500);
+        }
+
+        function makeStitchNeutral() {
+            stitchImg.src = stitchImages.normal;
+        }
+
+        noBtn.addEventListener('click', function() {
+            noClickCount++;
+            
+            // Make Stitch sadder
+            makeStitchSad(Math.min(noClickCount, 3));
+            
+            // Change question
+            question.textContent = sadMessages[Math.min(noClickCount - 1, sadMessages.length - 1)];
+            
+            // Make Yes button bigger
+            yesBtnSize += 0.5;
+            yesBtn.style.transform = `scale(${yesBtnSize})`;
+            yesBtn.style.padding = `${15 * yesBtnSize}px ${30 * yesBtnSize}px`;
+            
+            // Hide No button after 5 clicks
+            if (noClickCount >= 5) {
+                noBtn.style.opacity = '0';
+                noBtn.style.pointerEvents = 'none';
+            }
+
+            logEvent('no_clicked', { clickCount: noClickCount });
+        });
+
+        yesBtn.addEventListener('click', function() {
+            // Make Stitch super happy
+            makeStitchHappy();
+            
+            question.textContent = "Yay! I'm so happy! 💖✨";
+            
+            // Hide buttons
+            document.querySelector('.buttons').innerHTML = `
+                <button id="quizBtn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 15px 40px; font-size: 22px;">
+                    Take the Love Quiz! 💝
+                </button>
+            `;
+            
+            document.getElementById('quizBtn').addEventListener('click', function() {
+                logEvent('quiz_started', { timestamp: new Date().toISOString() });
+                window.location.href = 'quiz.html';
+            });
+
+            logEvent('yes_clicked', { afterNoClicks: noClickCount });
+        });
+
+        // Simple logging function
+        function logEvent(eventType, data) {
+            // Local storage (for same device viewing)
+            const logs = JSON.parse(localStorage.getItem('valentine_logs') || '[]');
+            logs.push({
+                event: eventType,
+                data: data,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('valentine_logs', JSON.stringify(logs));
+
+            // Remote logging to Google Form (configure below)
+            // SETUP: Replace these with your Google Form values
+            const FORM_ID = '1FAIpQLSektgXI6RsHGSMAlzBgY5Y6EMTf67r74bLPud_59RC2dX3nkA';
+            const ENTRY_EVENT = 'entry.37518403';
+            const ENTRY_DATA = 'entry.1693608898';
+            const ENTRY_TIME = 'entry.331095278';
+            
+            
+            // Only send if form is configured
+            if (FORM_ID !== 'YOUR_FORM_ID_HERE') {
+                const formUrl = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+                const formData = new FormData();
+                formData.append(ENTRY_EVENT, eventType);
+                formData.append(ENTRY_DATA, JSON.stringify(data));
+                formData.append(ENTRY_TIME, new Date().toISOString());
+                
+                // Send silently (no-cors mode)
+                fetch(formUrl, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                }).catch(() => {}); // Silently fail if offline
+            }
+        }
+    </script>
+</body>
+</html>
