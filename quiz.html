@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Quiz 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #e91e63;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .score {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #e91e63;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .marks {
+            background: #e91e63;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .question-text {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #e91e63;
+        }
+
+        input[type="text"].correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #f44336;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .success-message {
+            color: #4caf50;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Our Love Quiz 💖</h1>
+        <p class="subtitle">Answer these questions to prove you know us! 😊</p>
+        
+        <div class="score">
+            Score: <span id="currentScore">0</span>/10 marks
+        </div>
+
+        <form id="quizForm">
+            <div class="question-block">
+                <div class="question-header">
+                    <span class="question-number">Question 1</span>
+                    <span class="marks">2 marks</span>
+                </div>
+                <p class="question-text">What's our favorite thing to do together?</p>
+                <input type="text" id="q1" required placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <span class="question-number">Question 2</span>
+                    <span class="marks">2 marks</span>
+                </div>
+                <p class="question-text">Where did we first meet?</p>
+                <input type="text" id="q2" required placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <span class="question-number">Question 3</span>
+                    <span class="marks">2 marks</span>
+                </div>
+                <p class="question-text">What's my favorite way you make me smile?</p>
+                <input type="text" id="q3" required placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <span class="question-number">Question 4</span>
+                    <span class="marks">2 marks</span>
+                </div>
+                <p class="question-text">What song reminds you of us?</p>
+                <input type="text" id="q4" required placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <span class="question-number">Question 5</span>
+                    <span class="marks">2 marks</span>
+                </div>
+                <p class="question-text">What's your favorite memory with me?</p>
+                <input type="text" id="q5" required placeholder="Type your answer here...">
+            </div>
+
+            <div class="error-message" id="errorMsg">
+                Please fill in all questions before submitting! 💕
+            </div>
+            <div class="success-message" id="successMsg">
+                Perfect score! You know us so well! 🥰
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Quiz 💖</button>
+        </form>
+    </div>
+
+    <script>
+        // CUSTOMIZE THESE ANSWERS - Make them flexible (case-insensitive, accepts variations)
+        const answers = {
+            q1: ['watch movies', 'movies', 'netflix', 'hang out', 'talk'], // Multiple acceptable answers
+            q2: ['school', 'college', 'university', 'class', 'cafe', 'coffee shop'],
+            q3: ['laugh', 'smile', 'jokes', 'being silly', 'humor', 'your laugh'],
+            q4: ['perfect', 'love song', 'our song', 'any song', 'music'],
+            q5: ['first date', 'first kiss', 'trip', 'vacation', 'together', 'all of them']
+        };
+
+        const form = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        const scoreDisplay = document.getElementById('currentScore');
+
+        // Log quiz start
+        logEvent('quiz_page_loaded', { timestamp: new Date().toISOString() });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if all fields are filled
+            const q1 = document.getElementById('q1').value.trim();
+            const q2 = document.getElementById('q2').value.trim();
+            const q3 = document.getElementById('q3').value.trim();
+            const q4 = document.getElementById('q4').value.trim();
+            const q5 = document.getElementById('q5').value.trim();
+
+            if (!q1 || !q2 || !q3 || !q4 || !q5) {
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                return;
+            }
+
+            // Log answers
+            const userAnswers = { q1, q2, q3, q4, q5 };
+            logEvent('quiz_submitted', {
+                answers: userAnswers,
+                timestamp: new Date().toISOString()
+            });
+
+            // Always give full marks (every answer is correct!)
+            // Mark all inputs as correct
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.classList.add('correct');
+                input.disabled = true;
+            });
+
+            // Update score
+            scoreDisplay.textContent = '10';
+            
+            // Show success message
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'block';
+
+            // Change button to "Get Your Gift"
+            submitBtn.textContent = 'Get Your Gift! 🎁';
+            submitBtn.style.background = 'linear-gradient(135deg, #4caf50 0%, #45a049 100%)';
+            
+            // Redirect to gift page after 1.5 seconds
+            setTimeout(() => {
+                window.location.href = 'gift.html';
+            }, 1500);
+        });
+
+        // Simple logging function
+        function logEvent(eventType, data) {
+            // Local storage
+            const logs = JSON.parse(localStorage.getItem('valentine_logs') || '[]');
+            logs.push({
+                event: eventType,
+                data: data,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('valentine_logs', JSON.stringify(logs));
+
+            // Remote logging to Google Form
+            const FORM_ID = '1FAIpQLSektgXI6RsHGSMAlzBgY5Y6EMTf67r74bLPud_59RC2dX3nkA';
+            const ENTRY_EVENT = 'entry.37518403';
+            const ENTRY_DATA = 'entry.1693608898';
+            const ENTRY_TIME = 'entry.331095278';
+            
+            
+            if (FORM_ID !== 'YOUR_FORM_ID_HERE') {
+                const formUrl = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+                const formData = new FormData();
+                formData.append(ENTRY_EVENT, eventType);
+                formData.append(ENTRY_DATA, JSON.stringify(data));
+                formData.append(ENTRY_TIME, new Date().toISOString());
+                
+                fetch(formUrl, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                }).catch(() => {});
+            }
+        }
+    </script>
+</body>
+</html>
